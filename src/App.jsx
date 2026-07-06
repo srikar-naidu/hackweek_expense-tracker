@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "./layout/Navbar.jsx";
 import Footer from "./layout/Footer.jsx";
@@ -23,6 +23,7 @@ import {
   getMonthlySummary
 } from "./utils/calculations.js";
 import { prepareCategoryPieData, prepareMonthlyBarData } from "./utils/chartData.js";
+import { formatCurrency } from "./utils/helpers.js";
 import { categories } from "./data/categories.js";
 import "./styles/Navbar.css";
 import "./styles/Dashboard.css";
@@ -31,7 +32,7 @@ import "./styles/Charts.css";
 
 const App = () => {
   const [expenses, setExpenses] = useLocalStorage("expenses", []);
-  const { budget, setBudget, spent, remaining, percentage } = useBudget(expenses);
+  const { budget, setBudget, clearBudget, spent, remaining, percentage } = useBudget(expenses);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
@@ -57,6 +58,16 @@ const App = () => {
   );
   const barData = useMemo(() => prepareMonthlyBarData(expenses), [expenses]);
 
+  const handleClearTransactions = () => {
+    if (expenses.length === 0) {
+      toast("No transactions to clear yet.");
+      return;
+    }
+
+    setExpenses([]);
+    toast.success("All transactions cleared.");
+  };
+
   return (
     <div className="app">
       <Navbar />
@@ -74,6 +85,7 @@ const App = () => {
           <BudgetProgress
             budget={budget}
             setBudget={setBudget}
+            clearBudget={clearBudget}
             spent={spent}
             remaining={remaining}
             percentage={percentage}
@@ -110,6 +122,46 @@ const App = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
+              <div className="helper-panel glass-card">
+                <div className="helper-panel-header">
+                  <div>
+                    <h3 className="helper-panel-title">Helpful shortcuts</h3>
+                    <p className="helper-panel-subtitle">Keep the month tidy and your budget in view.</p>
+                  </div>
+                  <span className="helper-panel-pill">This month</span>
+                </div>
+
+                <div className="helper-actions">
+                  <button
+                    type="button"
+                    className="btn ghost"
+                    onClick={handleClearTransactions}
+                    disabled={expenses.length === 0}
+                  >
+                    Clear transactions
+                  </button>
+                </div>
+
+                <div className="helper-summary-grid">
+                  <div className="helper-summary-card">
+                    <span className="helper-summary-label">Spent</span>
+                    <span className="helper-summary-value">{formatCurrency(monthlySummary.totalExpenses)}</span>
+                  </div>
+                  <div className="helper-summary-card">
+                    <span className="helper-summary-label">Transactions</span>
+                    <span className="helper-summary-value">{monthlySummary.transactions}</span>
+                  </div>
+                  <div className="helper-summary-card">
+                    <span className="helper-summary-label">Average</span>
+                    <span className="helper-summary-value">{formatCurrency(monthlySummary.averageExpense)}</span>
+                  </div>
+                  <div className="helper-summary-card">
+                    <span className="helper-summary-label">Top category</span>
+                    <span className="helper-summary-value">{monthlySummary.highestCategory || "—"}</span>
+                  </div>
+                </div>
+              </div>
+
               <div className="list-header">
                 <SearchBar value={searchTerm} onChange={setSearchTerm} />
                 <div className="list-header-controls">

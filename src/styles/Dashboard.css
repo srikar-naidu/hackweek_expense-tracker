@@ -336,6 +336,26 @@
   gap: 0.75rem;
 }
 
+.budget-actions {
+  display: flex;
+  align-items: center;
+}
+
+.budget-clear {
+  border: 1px solid rgba(249, 115, 22, 0.28);
+  background: rgba(249, 115, 22, 0.09);
+  color: var(--orange-400);
+}
+
+.budget-clear:hover {
+  background: rgba(249, 115, 22, 0.16);
+}
+
+.budget-clear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .budget-label span {
   display: block;
   font-size: 0.78rem;

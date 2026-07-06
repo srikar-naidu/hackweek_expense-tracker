@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useLocalStorage } from "./useLocalStorage.js";
 
 export const useBudget = (expenses) => {
-  const [budget, setBudget] = useLocalStorage("monthly-budget", 0);
+  const [budget, setBudget, clearBudget] = useLocalStorage("monthly-budget", 0);
 
   const spent = useMemo(
     () => expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0),
@@ -16,5 +16,5 @@ export const useBudget = (expenses) => {
     [budget, spent]
   );
 
-  return { budget, setBudget, spent, remaining, percentage };
+  return { budget, setBudget, clearBudget, spent, remaining, percentage };
 };

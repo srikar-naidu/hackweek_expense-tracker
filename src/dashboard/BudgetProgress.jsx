@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 import { formatCurrency } from "../utils/helpers.js";
 
 const getProgressColor = (percentage) => {
@@ -8,7 +9,7 @@ const getProgressColor = (percentage) => {
   return "var(--accent-red)";
 };
 
-const BudgetProgress = ({ budget, setBudget, spent, remaining, percentage }) => {
+const BudgetProgress = ({ budget, setBudget, clearBudget, spent, remaining, percentage }) => {
   const [inputValue, setInputValue] = useState(budget ? String(budget) : "");
 
   useEffect(() => {
@@ -20,6 +21,11 @@ const BudgetProgress = ({ budget, setBudget, spent, remaining, percentage }) => 
     const value = Number(inputValue);
     if (!Number.isFinite(value) || value <= 0) return;
     setBudget(value);
+  };
+
+  const handleClearBudget = () => {
+    clearBudget();
+    toast.success("Budget cleared from your view and storage.");
   };
 
   const color = getProgressColor(percentage);
@@ -59,6 +65,18 @@ const BudgetProgress = ({ budget, setBudget, spent, remaining, percentage }) => 
             {budget ? "Update Budget" : "Set Budget"}
           </motion.button>
         </form>
+        <div className="budget-actions">
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            type="button"
+            className="btn secondary budget-clear"
+            onClick={handleClearBudget}
+            disabled={budget <= 0}
+          >
+            Clear Budget
+          </motion.button>
+        </div>
       </div>
 
       <div className="budget-progress-wrapper">
