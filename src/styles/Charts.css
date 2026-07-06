@@ -1,0 +1,27 @@
+.chart-card {
+  padding: 0.9rem 0.9rem 0.85rem;
+}
+
+.chart-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.chart-inner {
+  height: 260px;
+}
+
+.recharts-default-tooltip {
+  border-radius: 0.75rem !important;
+  border-color: rgba(251, 146, 60, 0.3) !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--text-primary) !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--text-secondary) !important;
+}

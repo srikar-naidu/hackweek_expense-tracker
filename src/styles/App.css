@@ -1,0 +1,217 @@
+.app {
+  min-height: 100vh;
+  position: relative;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+.app::before,
+.app::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app::before {
+  width: 500px;
+  height: 500px;
+  top: -120px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.18) 0%, transparent 70%);
+}
+
+.app::after {
+  width: 400px;
+  height: 400px;
+  bottom: -80px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.12) 0%, transparent 70%);
+}
+
+.app-main {
+  padding-top: 72px;
+  position: relative;
+  z-index: 1;
+}
+
+.app-content {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.glass-card {
+  position: relative;
+  border-radius: 1.25rem;
+  background: linear-gradient(145deg, rgba(28, 25, 23, 0.95), rgba(20, 18, 16, 0.98));
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-3d);
+  backdrop-filter: blur(20px);
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-3d:hover {
+  box-shadow: var(--shadow-3d-hover);
+}
+
+.card-3d-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(251, 146, 60, 0.08) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(249, 115, 22, 0.04) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.left-column,
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.charts-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.list-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.list-header-controls {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--orange-500), var(--orange-700));
+  color: white;
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.35);
+}
+
+.btn.primary:hover {
+  box-shadow: 0 12px 32px rgba(249, 115, 22, 0.45);
+}
+
+.btn.ghost {
+  background: rgba(28, 25, 23, 0.9);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.icon-btn {
+  border-radius: 999px;
+  border: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(28, 25, 23, 0.9);
+  border: 1px solid var(--border-subtle);
+}
+
+.icon-btn.subtle {
+  color: var(--text-muted);
+}
+
+.icon-btn.subtle:hover {
+  color: var(--orange-400);
+  border-color: var(--border-glow);
+}
+
+.icon-btn.danger {
+  color: var(--orange-500);
+}
+
+.icon-btn.danger:hover {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: var(--border-glow);
+}
+
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-text.subtle {
+  opacity: 0.8;
+}
+
+@media (max-width: 960px) {
+  .content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .charts-wrapper {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .app-content {
+    padding-inline: 1rem;
+  }
+
+  .footer-inner {
+    align-items: flex-start;
+  }
+}
