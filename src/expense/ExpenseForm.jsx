@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { formatISODate } from "../utils/helpers.js";
@@ -19,6 +19,8 @@ const ExpenseForm = ({
   setEditingExpense
 }) => {
   const [form, setForm] = useState(initialState);
+  const formSectionRef = useRef(null);
+  const amountInputRef = useRef(null);
 
   useEffect(() => {
     if (editingExpense) {
@@ -28,9 +30,16 @@ const ExpenseForm = ({
         category: editingExpense.category,
         date: editingExpense.date
       });
-    } else {
-      setForm(initialState);
+
+      const scrollAndFocus = window.setTimeout(() => {
+        formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        amountInputRef.current?.focus();
+      }, 80);
+
+      return () => window.clearTimeout(scrollAndFocus);
     }
+
+    setForm(initialState);
   }, [editingExpense]);
 
   const handleChange = (e) => {
@@ -87,7 +96,7 @@ const ExpenseForm = ({
   const isEditing = Boolean(editingExpense);
 
   return (
-    <section className="expense-form-section glass-card">
+    <section className="expense-form-section glass-card" ref={formSectionRef}>
       <div className="expense-form-header">
         <div>
           <h2 className="section-title">
@@ -117,6 +126,7 @@ const ExpenseForm = ({
             <div className="amount-input-wrapper">
               <span className="amount-prefix">₹</span>
               <input
+                ref={amountInputRef}
                 type="number"
                 name="amount"
                 value={form.amount}
